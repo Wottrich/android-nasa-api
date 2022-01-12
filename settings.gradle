@@ -1,0 +1,11 @@
+rootProject.name = "NasaApis"
+include ':app'
+include ':datasource'
+include ':resource'
+include ':data'
+include ':common-ui-compose'
+include ':ui-home'
+include ':domain'
+include ':common-android'
+include ':screen-state'
+include ':ui-apod'
