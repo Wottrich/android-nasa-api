@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ui_apod_top_bar_title">Astronomy picture of the day</string>
+    <string name="ui_apod_image_of_the_day">Image of the day</string>
+    <string name="ui_apod_explanation_label_description">Description:</string>
+</resources>

@@ -51,6 +51,7 @@ dependencies {
     moduleDomain()
     moduleCommonAndroid()
     moduleCommonUiCompose()
+    moduleCommonResources()
     moduleDatasource()
 
     //File

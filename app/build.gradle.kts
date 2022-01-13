@@ -67,6 +67,7 @@ dependencies {
     //Compose
     composeUi()
     implementation(Libs.composeNavigation)
+    implementation(Libs.composeNavigationAnimationAccompanist)
     moduleCommonUiCompose()
 
     //File

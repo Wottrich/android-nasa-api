@@ -1,18 +1,36 @@
 package github.io.wottrich.ui.apod
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import coil.compose.LocalImageLoader
 import coil.compose.rememberImagePainter
-import coil.transform.CircleCropTransformation
 import github.io.wottrich.common.compose.components.DefaultLoadingContent
-import github.io.wottrich.domain.GetAstronomyPictureOfTheDayUseCase
+import github.io.wottrich.common.compose.theme.dimens.Dimens
+import github.io.wottrich.common.compose.theme.ui.theme.NasaTheme
+import github.io.wottrich.ui.apod.R.string
 import org.koin.androidx.compose.getViewModel
 
 /**
@@ -24,12 +42,35 @@ import org.koin.androidx.compose.getViewModel
  *
  */
 
+private val ImageHeightSize = 400.dp
+
 @Composable
 fun AstronomyPictureOfTheDayScreen(
+    onBackButton: () -> Unit,
     viewModel: AstronomyPictureOfTheDayViewModel = getViewModel()
 ) {
-    Scaffold {
-        Screen(astronomyPictureOfTheDayViewModel = viewModel)
+    NasaTheme {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    navigationIcon = {
+                        IconButton(onClick = onBackButton) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = stringResource(
+                                    id = R.string.back_button_content_description
+                                )
+                            )
+                        }
+                    },
+                    title = {
+                        Text(text = stringResource(id = R.string.ui_apod_top_bar_title))
+                    }
+                )
+            }
+        ) {
+            Screen(astronomyPictureOfTheDayViewModel = viewModel)
+        }
     }
 }
 
@@ -40,11 +81,21 @@ private fun Screen(
     val state by astronomyPictureOfTheDayViewModel.state.collectAsState()
     val astronomyPictureOfTheDay = state.astronomyPictureOfTheDay
 
-    if (state.isLoading) {
-        APODLoading()
-    } else {
-        if (astronomyPictureOfTheDay != null) {
-            ImageLoaded(url = astronomyPictureOfTheDay.url)
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .fillMaxSize()
+            .padding(all = Dimens.Small.L)
+    ) {
+        if (state.isLoading) {
+            APODLoading()
+        } else {
+            astronomyPictureOfTheDay?.apply {
+                TitleContent(title = title)
+                ImageLoaded(url = url)
+                Copyright(copyright = copyright)
+                Explanation(explanation = explanation)
+            }
         }
     }
 }
@@ -55,9 +106,17 @@ private fun APODLoading() {
 }
 
 @Composable
+private fun TitleContent(title: String) {
+    Text(text = title, style = MaterialTheme.typography.h5)
+    Spacer(modifier = Modifier.height(Dimens.Small.L))
+}
+
+@Composable
 fun ImageLoaded(url: String) {
     Image(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .height(ImageHeightSize)
+            .fillMaxWidth(),
         painter = rememberImagePainter(
             data = url,
             imageLoader = LocalImageLoader.current,
@@ -65,6 +124,33 @@ fun ImageLoaded(url: String) {
                 crossfade(true)
             }
         ),
-        contentDescription = "avatar image",
+        contentDescription = stringResource(id = R.string.ui_apod_image_of_the_day),
+    )
+    Spacer(modifier = Modifier.height(Dimens.Small.S))
+}
+
+@Composable
+private fun Copyright(copyright: String) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End
+    ) {
+        Text(
+            text = copyright,
+            style = MaterialTheme.typography.caption
+        )
+    }
+    Spacer(modifier = Modifier.height(Dimens.Small.S))
+}
+
+@Composable
+private fun Explanation(explanation: String) {
+    Text(
+        text = stringResource(string.ui_apod_explanation_label_description),
+        style = MaterialTheme.typography.h6
+    )
+    Text(
+        text = explanation,
+        style = MaterialTheme.typography.body1
     )
 }

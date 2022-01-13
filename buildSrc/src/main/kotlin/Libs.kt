@@ -45,6 +45,8 @@ object Libs {
     //Compose Navigation
     const val composeNavigation =
         "androidx.navigation:navigation-compose:${Versions.composeNavigationVersion}"
+    const val composeNavigationAnimationAccompanist =
+        "com.google.accompanist:accompanist-navigation-animation:${Versions.composeNavigationAnimationAccompanistVersion}"
 
     //Coil
     const val coilCompose = "io.coil-kt:coil-compose:${Versions.coilVersion}"

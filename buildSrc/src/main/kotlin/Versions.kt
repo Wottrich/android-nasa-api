@@ -22,7 +22,8 @@ object Versions {
     //Compose
     const val composeVersion = "1.0.5"
     const val composeActivityVersion = "1.3.1"
-    const val composeNavigationVersion = "2.4.0-alpha08"
+    const val composeNavigationVersion = "2.4.0-rc01"
+    const val composeNavigationAnimationAccompanistVersion = "0.22.0-rc"
     const val accompanistVersion = "0.19.0"
 
     //Coil

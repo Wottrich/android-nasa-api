@@ -38,6 +38,10 @@ fun DependencyHandlerScope.moduleUiAPOD() {
     "implementation"(project(":ui-apod"))
 }
 
+fun DependencyHandlerScope.moduleCommonResources() {
+    "implementation"(project(":common-resources"))
+}
+
 fun DependencyHandlerScope.moduleCommonAndroid() {
     "implementation"(project(":common-android"))
 }
