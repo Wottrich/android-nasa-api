@@ -4,6 +4,7 @@ import github.io.wottrich.common.android.BaseDependencyInjection
 import github.io.wottrich.common.android.MultiDependencyInjection
 import github.io.wottrich.home.HomeFeatureInjection
 import github.io.wottrich.ui.apod.AstronomyPictureOfTheDayFeatureModule
+import github.io.wottrich.ui.epic.EarthPolychromaticImagingCameraModule
 
 /**
  * @author Wottrich
@@ -17,6 +18,7 @@ import github.io.wottrich.ui.apod.AstronomyPictureOfTheDayFeatureModule
 object FeatureModules : MultiDependencyInjection() {
     override val featureModules: List<BaseDependencyInjection> = listOf(
         HomeFeatureInjection,
-        AstronomyPictureOfTheDayFeatureModule
+        AstronomyPictureOfTheDayFeatureModule,
+        EarthPolychromaticImagingCameraModule
     )
 }

@@ -7,6 +7,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import github.io.wottrich.common.compose.theme.ui.color.NasaTheme
 
 /**
  * @author Wottrich
@@ -24,6 +25,8 @@ fun DefaultLoadingContent() {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
-        CircularProgressIndicator()
+        CircularProgressIndicator(
+            color = NasaTheme.colors.onBackground
+        )
     }
 }

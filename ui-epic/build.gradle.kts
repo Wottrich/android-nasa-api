@@ -37,14 +37,31 @@ dependencies {
 
     implementation(Libs.kotlinStdlib)
     implementation(Libs.androidCoreKtx)
+    implementation(Libs.appCompat)
+    coroutines()
 
-    // Compose
+    //Api
+    apiDigest()
     composeUi()
     implementation(Libs.coilCompose)
+
+
+    //Modules
+    moduleCommonAndroid()
+    moduleCommonUiCompose()
+    moduleCommonResources()
+    moduleData()
+    moduleDomain()
+    moduleDatasource()
+    moduleResource()
 
     //File
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
-    unitTest()
+    //injection
+    koin()
 
+    //Test
+    unitTest()
+    instrumentalTest()
 }

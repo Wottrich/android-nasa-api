@@ -38,6 +38,10 @@ fun DependencyHandlerScope.moduleUiAPOD() {
     "implementation"(project(":ui-apod"))
 }
 
+fun DependencyHandlerScope.moduleUiEPIC() {
+    "implementation"(project(":ui-epic"))
+}
+
 fun DependencyHandlerScope.moduleCommonResources() {
     "implementation"(project(":common-resources"))
 }

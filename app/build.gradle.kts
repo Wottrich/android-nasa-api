@@ -61,6 +61,7 @@ dependencies {
     moduleDatasource()
     moduleUiHome()
     moduleUiAPOD()
+    moduleUiEPIC()
     moduleCommonAndroid()
     moduleDomain()
 

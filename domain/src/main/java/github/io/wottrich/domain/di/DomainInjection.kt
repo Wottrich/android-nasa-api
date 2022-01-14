@@ -3,6 +3,7 @@ package github.io.wottrich.domain.di
 import github.io.wottrich.common.android.BaseDependencyInjection
 import github.io.wottrich.domain.GetAstronomyPictureOfTheDayUseCase
 import github.io.wottrich.domain.GetAvailableItemsUseCase
+import github.io.wottrich.domain.GetEarthPolychromaticImagingCameraUseCase
 import org.koin.dsl.module
 
 /**
@@ -18,5 +19,6 @@ object DomainInjection : BaseDependencyInjection() {
     override fun modules() = module {
         factory { GetAvailableItemsUseCase() }
         factory { GetAstronomyPictureOfTheDayUseCase(get()) }
+        factory { GetEarthPolychromaticImagingCameraUseCase(get()) }
     }
 }

@@ -1,6 +1,5 @@
 package github.io.wottrich.ui.apod
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,9 +24,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.LocalImageLoader
-import coil.compose.rememberImagePainter
 import github.io.wottrich.common.compose.components.DefaultLoadingContent
+import github.io.wottrich.common.compose.components.ImageLoaded
 import github.io.wottrich.common.compose.theme.dimens.Dimens
 import github.io.wottrich.common.compose.theme.ui.theme.NasaTheme
 import github.io.wottrich.ui.apod.R.string
@@ -92,7 +90,12 @@ private fun Screen(
         } else {
             astronomyPictureOfTheDay?.apply {
                 TitleContent(title = title)
-                ImageLoaded(url = url)
+                ImageLoaded(
+                    modifier = Modifier.height(ImageHeightSize),
+                    url = url,
+                    contentDescription = stringResource(id = string.ui_apod_image_of_the_day)
+                )
+                Spacer(modifier = Modifier.height(Dimens.Small.S))
                 Copyright(copyright = copyright)
                 Explanation(explanation = explanation)
             }
@@ -109,24 +112,6 @@ private fun APODLoading() {
 private fun TitleContent(title: String) {
     Text(text = title, style = MaterialTheme.typography.h5)
     Spacer(modifier = Modifier.height(Dimens.Small.L))
-}
-
-@Composable
-fun ImageLoaded(url: String) {
-    Image(
-        modifier = Modifier
-            .height(ImageHeightSize)
-            .fillMaxWidth(),
-        painter = rememberImagePainter(
-            data = url,
-            imageLoader = LocalImageLoader.current,
-            builder = {
-                crossfade(true)
-            }
-        ),
-        contentDescription = stringResource(id = R.string.ui_apod_image_of_the_day),
-    )
-    Spacer(modifier = Modifier.height(Dimens.Small.S))
 }
 
 @Composable
