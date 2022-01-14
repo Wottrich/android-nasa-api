@@ -1,7 +1,7 @@
 package github.io.wottrich.domain
 
-import github.io.wottrich.datasource.dispatchers.AppDispatchers
 import github.io.wottrich.domain.AvailableItemType.AstronomyPictureOfTheDay
+import github.io.wottrich.domain.AvailableItemType.EarthPolychromaticImagingCamera
 import github.io.wottrich.domain.base.UseCase
 import github.io.wottrich.domain.base.UseCase.None
 import github.io.wottrich.resource.Resource
@@ -18,7 +18,8 @@ import kotlinx.coroutines.flow.flow
  */
 
 enum class AvailableItemType {
-    AstronomyPictureOfTheDay
+    AstronomyPictureOfTheDay,
+    EarthPolychromaticImagingCamera
 }
 
 data class AvailableItems(
@@ -29,7 +30,8 @@ data class AvailableItems(
 class GetAvailableItemsUseCase : UseCase<None, List<AvailableItems>>() {
 
     private val availableItems = listOf(
-        AvailableItems("Astronomy Picture Of The Day", AstronomyPictureOfTheDay)
+        AvailableItems("Astronomy Picture Of The Day", AstronomyPictureOfTheDay),
+        AvailableItems("Earth Polychromatic Imaging Camera", EarthPolychromaticImagingCamera)
     )
 
     override suspend fun execute(params: None): Flow<Resource<List<AvailableItems>>> = flow {

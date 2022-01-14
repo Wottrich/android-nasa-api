@@ -1,6 +1,7 @@
 package github.io.wottrich.datasource.network
 
 import github.io.wottrich.datasource.api.APODEndpoint
+import github.io.wottrich.datasource.api.EPICEndpoint
 import github.io.wottrich.datasource.endpoints.Endpoints
 import org.koin.core.qualifier.named
 import org.koin.core.scope.Scope
@@ -16,3 +17,6 @@ import org.koin.core.scope.Scope
 
 val Scope.APODRetrofitInstance: APODEndpoint
     get() = Network.buildRetrofit(get(named(Endpoints.APODKoinNamed))).create(APODEndpoint::class.java)
+
+val Scope.EPICRetrofitInstance: EPICEndpoint
+    get() = Network.buildRetrofit(get(named(Endpoints.EPICKoinNamed))).create(EPICEndpoint::class.java)
