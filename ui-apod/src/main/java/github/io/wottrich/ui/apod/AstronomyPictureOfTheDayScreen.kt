@@ -24,6 +24,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.airbnb.lottie.compose.*
+import github.io.wottrich.common.compose.components.DefaultErrorComponent
 import github.io.wottrich.common.compose.components.DefaultLoadingContent
 import github.io.wottrich.common.compose.components.ImageLoaded
 import github.io.wottrich.common.compose.theme.dimens.Dimens
@@ -85,19 +87,25 @@ private fun Screen(
             .fillMaxSize()
             .padding(all = Dimens.Small.L)
     ) {
-        if (state.isLoading) {
-            APODLoading()
+        if (state.hasError) {
+            DefaultErrorComponent {
+                astronomyPictureOfTheDayViewModel.onTryAgain()
+            }
         } else {
-            astronomyPictureOfTheDay?.apply {
-                TitleContent(title = title)
-                ImageLoaded(
-                    modifier = Modifier.height(ImageHeightSize),
-                    url = url,
-                    contentDescription = stringResource(id = string.ui_apod_image_of_the_day)
-                )
-                Spacer(modifier = Modifier.height(Dimens.Small.S))
-                Copyright(copyright = copyright)
-                Explanation(explanation = explanation)
+            if (state.isLoading) {
+                APODLoading()
+            } else {
+                astronomyPictureOfTheDay?.apply {
+                    TitleContent(title = title)
+                    ImageLoaded(
+                        modifier = Modifier.height(ImageHeightSize),
+                        url = url,
+                        contentDescription = stringResource(id = string.ui_apod_image_of_the_day)
+                    )
+                    Spacer(modifier = Modifier.height(Dimens.Small.S))
+                    Copyright(copyright = copyright)
+                    Explanation(explanation = explanation)
+                }
             }
         }
     }

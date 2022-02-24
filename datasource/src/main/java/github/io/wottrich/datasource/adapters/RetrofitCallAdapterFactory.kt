@@ -1,11 +1,13 @@
 package github.io.wottrich.datasource.adapters
 
+import github.io.wottrich.datasource.adapters.kotlinresult.RetrofitCallResultAdapter
+import github.io.wottrich.datasource.adapters.resource.RetrofitCallResourceAdapter
 import github.io.wottrich.resource.Resource
-import java.lang.reflect.ParameterizedType
-import java.lang.reflect.Type
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
+import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
 
 /**
  * @author Wottrich
@@ -26,7 +28,7 @@ class RetrofitCallAdapterFactory : CallAdapter.Factory() {
             val enclosingType = getParameterUpperBound(0, returnType as ParameterizedType)
             val rawType = getRawType(enclosingType)
 
-            if (rawType != Resource::class.java) {
+            if (rawType != Resource::class.java && rawType != Result::class.java) {
                 throw IllegalArgumentException("type must be a ApiResponse")
             }
 
@@ -35,10 +37,18 @@ class RetrofitCallAdapterFactory : CallAdapter.Factory() {
             }
 
             val bodyType = getParameterUpperBound(0, enclosingType)
-            return RetrofitCallAdapter<Any>(bodyType)
+            return getCallAdapter(rawType, bodyType)
         }
 
         return null
+    }
+
+    private fun getCallAdapter(rawType: Class<*>, bodyType: Type): CallAdapter<*, *>? {
+        return when (rawType) {
+            Resource::class.java -> RetrofitCallResourceAdapter<Any>(bodyType)
+            Result::class.java -> RetrofitCallResultAdapter<Any>(bodyType)
+            else -> null
+        }
     }
 
 }

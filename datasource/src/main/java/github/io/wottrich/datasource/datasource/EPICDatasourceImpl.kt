@@ -5,6 +5,7 @@ import github.io.wottrich.datasource.api.EPICEndpoint
 import github.io.wottrich.datasource.resource.NetworkBoundResource
 import github.io.wottrich.resource.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 /**
  * @author Wottrich
@@ -19,8 +20,9 @@ class EPICDatasourceImpl(
     private val epicEndpoint: EPICEndpoint
 ) : EPICDatasource {
     override fun loadEpic(): Flow<Resource<List<EarthPolychromaticImagingCamera>>> {
-        return NetworkBoundResource(
+        return flow {  }
+        /*return NetworkBoundResource(
             call = { epicEndpoint.loadEarthPolychromaticImagingCameraList() }
-        ).build()
+        ).build()*/
     }
 }

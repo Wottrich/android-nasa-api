@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">NasaApis</string>
     <string name="back_button_content_description">Back</string>
+    <string name="default_error_label">Something went wrong</string>
+    <string name="default_try_again_label">Try again</string>
 </resources>

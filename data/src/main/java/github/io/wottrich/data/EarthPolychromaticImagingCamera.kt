@@ -27,7 +27,7 @@ data class EarthPolychromaticImagingCamera(
     }
 
     private fun getFormatDate(): String {
-        val formatter = SimpleDateFormat("yyyy-MM-DD HH:MM:SS")
+        val formatter = SimpleDateFormat("yyyy-MM-dd")
         val formattedDate: Date? = formatter.parse(date)
         val calendarInstance = Calendar.getInstance()
         calendarInstance.time =

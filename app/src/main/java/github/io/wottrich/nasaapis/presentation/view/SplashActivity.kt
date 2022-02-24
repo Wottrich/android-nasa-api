@@ -30,6 +30,7 @@ class SplashActivity : ComponentActivity() {
                     Screen(
                         onFinishSplash = {
                             startActivity(Intent(this, SingleActivity::class.java))
+                            finish()
                         }
                     )
                 }

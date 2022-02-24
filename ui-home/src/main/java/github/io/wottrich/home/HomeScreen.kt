@@ -1,6 +1,8 @@
 package github.io.wottrich.home
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -19,6 +21,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
@@ -29,6 +32,7 @@ import github.io.wottrich.common.compose.theme.dimens.Dimens.Small
 import github.io.wottrich.common.compose.theme.ui.theme.NasaTheme
 import github.io.wottrich.domain.AvailableItemType
 import github.io.wottrich.home.R.string
+import kotlinx.coroutines.flow.debounce
 import org.koin.androidx.compose.getViewModel
 
 /**
@@ -65,13 +69,15 @@ private fun Screen(homeViewModel: HomeViewModel, onItemClicked: (AvailableItemTy
     val state by homeViewModel.state.collectAsState()
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(all = Small.L)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(all = Small.L)
     ) {
-        if (state.isLoading) {
-            HomeLoading()
-        } else {
-            HomeContent(state, onItemClicked)
-        }
+        //if (state.isLoading) {
+        //    HomeLoading()
+        //} else {
+        HomeContent(state, onItemClicked)
+        //}
     }
 }
 
@@ -93,7 +99,15 @@ private fun HomeContent(state: HomeUiState, onItemClicked: (AvailableItemType) -
                 ListItem(
                     modifier = Modifier
                         .clip(roundedCornerShape)
-                        .clickable { onItemClicked(item.type) },
+                        .clickable(
+                            interactionSource = remember {
+                                val interaction = MutableInteractionSource()
+                                interaction.interactions.debounce(1000)
+                                interaction
+                            },
+                            indication = LocalIndication.current,
+                            onClick = { onItemClicked(item.type) }
+                        ),
                     trailing = {
                         Icon(
                             imageVector = Icons.Default.KeyboardArrowRight,

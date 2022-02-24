@@ -42,6 +42,12 @@ dependencies {
     composeUi()
     implementation(Libs.coilCompose)
 
+    // Resources
+    moduleCommonResources()
+
+    // Lottie
+    lottie()
+
     //File
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 

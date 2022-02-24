@@ -52,6 +52,6 @@ class ScreenState<out T> private constructor(val value: Any) {
 
 data class ScreenStateCached<out T>(val data: T)
 
-data class ScreenStateFailure(val throwable: Throwable, val refreshing: Boolean = false)
+data class ScreenStateFailure(val throwable: Throwable?, val refreshing: Boolean = false)
 
 data class ScreenStateInitial(val loading: Boolean = true)

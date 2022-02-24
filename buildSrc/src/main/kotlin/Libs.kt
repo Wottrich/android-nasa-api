@@ -62,6 +62,9 @@ object Libs {
     const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
     const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
 
+    //Lottie
+    const val lottieAnimation = "com.airbnb.android:lottie-compose:${Versions.lottie}"
+
     // material
     const val androidMaterial = "com.google.android.material:material:${Versions.androidMaterial}"
 
@@ -119,4 +122,8 @@ fun DependencyHandlerScope.apiDigest() {
 fun DependencyHandlerScope.room() {
     "implementation"(Libs.roomRuntime)
     "implementation"(Libs.roomKtx)
+}
+
+fun DependencyHandlerScope.lottie() {
+    "implementation"(Libs.lottieAnimation)
 }

@@ -1,10 +1,9 @@
 package github.io.wottrich.domain
 
 import github.io.wottrich.data.AstronomyPictureOfTheDay
-import github.io.wottrich.datasource.datasource.APODDataSource
-import github.io.wottrich.domain.base.UseCase
-import github.io.wottrich.resource.Resource
-import kotlinx.coroutines.flow.Flow
+import github.io.wottrich.datasource.api.APODEndpoint
+import github.io.wottrich.domain.base.KotlinResultUseCase
+import github.io.wottrich.domain.base.None
 
 /**
  * @author Wottrich
@@ -16,8 +15,8 @@ import kotlinx.coroutines.flow.Flow
  */
 
 class GetAstronomyPictureOfTheDayUseCase(
-    private val apodDataSource: APODDataSource
-) : UseCase<UseCase.None, AstronomyPictureOfTheDay>() {
-    override suspend fun execute(params: None): Flow<Resource<AstronomyPictureOfTheDay>> =
-        apodDataSource.loadAPOD()
+    private val apodRepository: APODEndpoint
+) : KotlinResultUseCase<None, AstronomyPictureOfTheDay>() {
+    override suspend fun execute(params: None): Result<AstronomyPictureOfTheDay> =
+        apodRepository.loadAstronomyPictureOfTheDay()
 }

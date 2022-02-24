@@ -1,4 +1,4 @@
-package github.io.wottrich.datasource.adapters
+package github.io.wottrich.datasource.adapters.resource
 
 import github.io.wottrich.resource.Resource
 import java.lang.reflect.Type
@@ -14,14 +14,13 @@ import retrofit2.CallAdapter
  *
  */
 
-class RetrofitCallAdapter<R>(
+class RetrofitCallResourceAdapter<R>(
     private val responseType: Type
 ) : CallAdapter<R, Call<Resource<R>>> {
 
     override fun responseType(): Type = responseType
 
     override fun adapt(call: Call<R>): Call<Resource<R>> {
-        return RetrofitCallAdapterResponse(call)
+        return RetrofitCallResourceAdapterResponse(call)
     }
-
 }

@@ -26,25 +26,17 @@ class HomeViewModel(
 
     init {
         launchIO {
-            getAvailableItemsUseCase {
-                loading = {
-                    _state.value = state.value.copy(isLoading = true)
-                }
-                success = {
-                    _state.value = state.value.copy(isLoading = false, availableItems = it)
-                }
-            }
+            val availableItems = getAvailableItemsUseCase()
+            _state.value = state.value.copy(availableItems = availableItems)
         }
     }
 }
 
 data class HomeUiState(
-    val isLoading: Boolean,
     val availableItems: List<AvailableItems>,
 ) {
     companion object {
         val Initial = HomeUiState(
-            isLoading = true,
             availableItems = emptyList()
         )
     }

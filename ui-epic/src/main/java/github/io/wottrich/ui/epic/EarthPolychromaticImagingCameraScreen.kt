@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import github.io.wottrich.common.compose.components.DefaultErrorComponent
 import github.io.wottrich.common.compose.components.DefaultLoadingContent
 import github.io.wottrich.common.compose.components.ImageLoaded
 import github.io.wottrich.common.compose.theme.dimens.Dimens
@@ -75,6 +76,17 @@ private fun Screen(
 
     val state by earthPolychromaticImagingCameraViewModel.uiState.collectAsState()
 
+    if (state.hasError) {
+        DefaultErrorComponent {
+            earthPolychromaticImagingCameraViewModel.onTryAgain()
+        }
+    } else {
+        EpicContent(state)
+    }
+}
+
+@Composable
+fun EpicContent(state: EpicUiState) {
     if (state.isLoading) {
         DefaultLoadingContent()
     } else {
