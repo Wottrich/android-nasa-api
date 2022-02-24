@@ -1,7 +1,6 @@
 package github.io.wottrich.datasource.api
 
 import github.io.wottrich.data.AstronomyPictureOfTheDay
-import github.io.wottrich.resource.Resource
 import retrofit2.http.GET
 
 /**
@@ -16,6 +15,6 @@ import retrofit2.http.GET
 interface APODEndpoint {
 
     @GET("planetary/apod?api_key=DEMO_KEY")
-    suspend fun loadAstronomyPictureOfTheDay(): Resource<AstronomyPictureOfTheDay>
+    suspend fun loadAstronomyPictureOfTheDay(): Result<AstronomyPictureOfTheDay>
 
 }

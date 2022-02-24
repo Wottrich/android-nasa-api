@@ -4,6 +4,7 @@ import github.io.wottrich.data.EarthPolychromaticImagingCamera
 import github.io.wottrich.datasource.dispatchers.AppDispatchers
 import github.io.wottrich.domain.GetEarthPolychromaticImagingCameraUseCase
 import github.io.wottrich.domain.base.BaseViewModel
+import github.io.wottrich.domain.base.onLoadingResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -26,14 +27,26 @@ class EarthPolychromaticImagingCameraViewModel(
 
     init {
         launchIO {
-            getEarthPolychromaticImagingCameraUseCase {
-                success = {
-                    _uiState.value = uiState.value.copy(
-                        isLoading = false,
-                        earthPolychromaticImages = it
-                    )
-                }
-            }
+            loadEarthPolychromaticImagingCamera()
+        }
+    }
+
+    fun onTryAgain() {
+        launchIO {
+            loadEarthPolychromaticImagingCamera()
+        }
+    }
+
+    private suspend fun loadEarthPolychromaticImagingCamera() {
+        getEarthPolychromaticImagingCameraUseCase.onLoadingResult {
+            _uiState.value = uiState.value.copy(isLoading = it, hasError = false)
+        }.onSuccess {
+            _uiState.value = uiState.value.copy(
+                earthPolychromaticImages = it,
+                hasError = false
+            )
+        }.onFailure {
+            _uiState.value = uiState.value.copy(hasError = true)
         }
     }
 
@@ -41,10 +54,12 @@ class EarthPolychromaticImagingCameraViewModel(
 
 data class EpicUiState(
     val isLoading: Boolean,
-    val earthPolychromaticImages: List<EarthPolychromaticImagingCamera>
+    val earthPolychromaticImages: List<EarthPolychromaticImagingCamera>,
+    val hasError: Boolean
 )
 
 private fun initEpicUiState() = EpicUiState(
     isLoading = true,
-    earthPolychromaticImages = emptyList()
+    earthPolychromaticImages = emptyList(),
+    hasError = false
 )

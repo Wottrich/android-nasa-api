@@ -4,6 +4,7 @@ import github.io.wottrich.data.AstronomyPictureOfTheDay
 import github.io.wottrich.datasource.dispatchers.AppDispatchers
 import github.io.wottrich.domain.GetAstronomyPictureOfTheDayUseCase
 import github.io.wottrich.domain.base.BaseViewModel
+import github.io.wottrich.domain.base.onLoadingResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -25,30 +26,34 @@ class AstronomyPictureOfTheDayViewModel(
     val state = _state.asStateFlow()
 
     init {
-        launchIO {
-            getAstronomyPictureOfTheDayUseCase {
-                loading = {
-                    _state.value = state.value.copy(isLoading = true)
-                }
-                success = {
-                    _state.value = state.value.copy(
-                        isLoading = false,
-                        astronomyPictureOfTheDay = it
-                    )
-                }
-            }
+        launchIO { loadAstronomyPictureOfTheDayUseCase() }
+    }
+
+    fun onTryAgain() {
+        launchIO { loadAstronomyPictureOfTheDayUseCase() }
+    }
+
+    private suspend fun loadAstronomyPictureOfTheDayUseCase() {
+        getAstronomyPictureOfTheDayUseCase.onLoadingResult {
+            _state.value = state.value.copy(isLoading = it, hasError = false)
+        }.onSuccess {
+            _state.value = state.value.copy(astronomyPictureOfTheDay = it, hasError = false)
+        }.onFailure {
+            _state.value = state.value.copy(hasError = true)
         }
     }
 }
 
 data class AstronomyPictureOfTheDayUiState(
     val isLoading: Boolean,
-    val astronomyPictureOfTheDay: AstronomyPictureOfTheDay?
+    val astronomyPictureOfTheDay: AstronomyPictureOfTheDay?,
+    val hasError: Boolean
 ) {
     companion object {
         val Initial = AstronomyPictureOfTheDayUiState(
             isLoading = true,
-            astronomyPictureOfTheDay = null
+            astronomyPictureOfTheDay = null,
+            hasError = false
         )
     }
 }

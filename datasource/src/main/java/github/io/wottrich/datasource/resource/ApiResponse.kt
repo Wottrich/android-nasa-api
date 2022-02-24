@@ -14,35 +14,49 @@ import retrofit2.Response
  *
  */
 
-sealed class ApiResponse<T> {
-    companion object {
 
-        fun <T> create(throwable: Throwable): Resource<T> {
-            return Resource.failure(throwable)
-        }
 
-        fun <T> create(response: Response<T>): Resource<T> {
-            return if (response.isSuccessful) {
-                val body = response.body()
+object ApiResponse {
+
+    fun <T> create(throwable: Throwable): Result<T> {
+        return Result.failure(throwable)
+    }
+
+    fun <T> create(response: Response<T>): Result<T> {
+        return response.bodyValidation(
+            success = {
+                val body = it.body()
                 if (body != null && response.code() != 204) {
-                    Resource.success(body)
+                    Result.success(body)
                 } else {
-                    Resource.failure(EmptyDataException())
+                    Result.failure(EmptyDataException())
                 }
-            } else {
-                Resource.failure(
+            },
+            failure = {
+                Result.failure(
                     Throwable(
                         response.errorBody()?.getErrorMessage(ApiGeneralKeys.errorKey)
                     )
                 )
             }
-        }
+        )
+    }
 
-        private fun ResponseBody?.getErrorMessage(errorKey: String): String? {
-            this?.charStream()?.readText()?.takeIf { it.contains(errorKey) }?.let {
-                return JSONObject(it)[errorKey] as? String
-            }
-            return null
+    private fun <T, R> Response<T>.bodyValidation(
+        success: (Response<T>) -> R,
+        failure: (ResponseBody?) -> R,
+    ): R {
+        return when {
+            this.isSuccessful -> success(this)
+            else -> failure(this.errorBody())
         }
     }
+
+    private fun ResponseBody?.getErrorMessage(errorKey: String): String? {
+        this?.charStream()?.readText()?.takeIf { it.contains(errorKey) }?.let {
+            return JSONObject(it)[errorKey] as? String
+        }
+        return null
+    }
+
 }

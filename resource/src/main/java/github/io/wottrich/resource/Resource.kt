@@ -13,7 +13,7 @@ sealed class Resource<out T>(open val data: T?) {
 
     data class Success<T>(override val data: T?) : Resource<T>(data)
     data class Cached<T>(override val data: T?) : Resource<T> (data)
-    data class Failure<T>(val throwable: Throwable, override val data: T?) : Resource<T>(data)
+    data class Failure<T>(val throwable: Throwable?, override val data: T?) : Resource<T>(data)
     data class Loading<T>(override val data: T?) : Resource<T>(data)
 
     companion object {
@@ -25,7 +25,7 @@ sealed class Resource<out T>(open val data: T?) {
             return Cached(data)
         }
 
-        fun <T> failure(throwable: Throwable, data: T? = null): Resource<T> {
+        fun <T> failure(throwable: Throwable?, data: T? = null): Resource<T> {
             return Failure(throwable, data)
         }
 

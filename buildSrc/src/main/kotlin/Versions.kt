@@ -39,6 +39,9 @@ object Versions {
     //Room
     const val room = "2.3.0"
 
+    //Lottie Animation
+    const val lottie = "5.0.1"
+
     //Material
     const val androidMaterial = "1.2.0-alpha03"
 

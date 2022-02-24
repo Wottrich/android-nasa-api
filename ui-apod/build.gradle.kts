@@ -38,6 +38,7 @@ dependencies {
     implementation(Libs.kotlinStdlib)
     implementation(Libs.androidCoreKtx)
     implementation(Libs.appCompat)
+    lottie()
     coroutines()
 
     //Api

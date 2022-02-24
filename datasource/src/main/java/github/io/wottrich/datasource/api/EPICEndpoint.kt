@@ -1,7 +1,6 @@
 package github.io.wottrich.datasource.api
 
 import github.io.wottrich.data.EarthPolychromaticImagingCamera
-import github.io.wottrich.resource.Resource
 import retrofit2.http.GET
 
 /**
@@ -16,6 +15,6 @@ import retrofit2.http.GET
 interface EPICEndpoint {
 
     @GET("api/natural")
-    suspend fun loadEarthPolychromaticImagingCameraList(): Resource<List<EarthPolychromaticImagingCamera>>
+    suspend fun loadEarthPolychromaticImagingCameraList(): Result<List<EarthPolychromaticImagingCamera>>
 
 }

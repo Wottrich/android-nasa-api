@@ -5,6 +5,7 @@ import github.io.wottrich.datasource.api.APODEndpoint
 import github.io.wottrich.datasource.resource.NetworkBoundResource
 import github.io.wottrich.resource.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 /**
  * @author Wottrich
@@ -19,8 +20,9 @@ class APODDataSourceImpl(
     private val apodRepository: APODEndpoint
 ) : APODDataSource{
     override fun loadAPOD(): Flow<Resource<AstronomyPictureOfTheDay>> {
-        return NetworkBoundResource(
-            call = { apodRepository.loadAstronomyPictureOfTheDay() }
-        ).build()
+        return flow { }
+//        return NetworkBoundResource(
+//            call = { apodRepository.loadAstronomyPictureOfTheDay() }
+//        ).build()
     }
 }
