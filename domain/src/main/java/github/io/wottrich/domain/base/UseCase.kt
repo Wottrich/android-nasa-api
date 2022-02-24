@@ -2,8 +2,6 @@ package github.io.wottrich.domain.base
 
 import github.io.wottrich.resource.Resource
 import github.io.wottrich.resource.Resource.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 
 /**
  * @author Wottrich
