@@ -14,5 +14,5 @@ import kotlinx.coroutines.flow.Flow
  */
 
 interface APODDataSource {
-    fun loadAPOD(): Flow<Resource<AstronomyPictureOfTheDay>>
+    fun loadAPOD(): Flow<Result<AstronomyPictureOfTheDay>>
 }

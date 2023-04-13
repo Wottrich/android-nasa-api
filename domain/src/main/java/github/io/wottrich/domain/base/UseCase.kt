@@ -2,6 +2,7 @@ package github.io.wottrich.domain.base
 
 import github.io.wottrich.resource.Resource
 import github.io.wottrich.resource.Resource.*
+import kotlinx.coroutines.flow.Flow
 
 /**
  * @author Wottrich
@@ -40,6 +41,8 @@ class None
 abstract class KotlinResultUseCase<Params, ReturnType> : UseCase<Params, Result<ReturnType>> {
     abstract override suspend fun execute(params: Params): Result<ReturnType>
 }
+
+abstract class FlowableUseCase<Params, ReturnType> : UseCase<Params, Flow<Result<ReturnType>>>
 
 interface UseCase<Params, ReturnType> where ReturnType : Any? {
 

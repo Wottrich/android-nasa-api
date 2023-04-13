@@ -18,11 +18,10 @@ import kotlinx.coroutines.flow.flow
 
 class APODDataSourceImpl(
     private val apodRepository: APODEndpoint
-) : APODDataSource{
-    override fun loadAPOD(): Flow<Resource<AstronomyPictureOfTheDay>> {
-        return flow { }
-//        return NetworkBoundResource(
-//            call = { apodRepository.loadAstronomyPictureOfTheDay() }
-//        ).build()
+) : APODDataSource {
+    override fun loadAPOD(): Flow<Result<AstronomyPictureOfTheDay>> {
+        return NetworkBoundResource(
+            call = { apodRepository.loadAstronomyPictureOfTheDay() }
+        ).build()
     }
 }

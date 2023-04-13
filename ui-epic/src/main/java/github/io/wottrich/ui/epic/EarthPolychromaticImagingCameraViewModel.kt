@@ -4,7 +4,7 @@ import github.io.wottrich.data.EarthPolychromaticImagingCamera
 import github.io.wottrich.datasource.dispatchers.AppDispatchers
 import github.io.wottrich.domain.GetEarthPolychromaticImagingCameraUseCase
 import github.io.wottrich.domain.base.BaseViewModel
-import github.io.wottrich.domain.base.onLoadingResult
+import github.io.wottrich.domain.base.collect
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -38,16 +38,21 @@ class EarthPolychromaticImagingCameraViewModel(
     }
 
     private suspend fun loadEarthPolychromaticImagingCamera() {
-        getEarthPolychromaticImagingCameraUseCase.onLoadingResult {
-            _uiState.value = uiState.value.copy(isLoading = it, hasError = false)
-        }.onSuccess {
-            _uiState.value = uiState.value.copy(
-                earthPolychromaticImages = it,
-                hasError = false
-            )
-        }.onFailure {
-            _uiState.value = uiState.value.copy(hasError = true)
-        }
+        getEarthPolychromaticImagingCameraUseCase.collect(
+            loadingBlock = {
+                _uiState.value = uiState.value.copy(isLoading = it, hasError = false)
+            },
+            collect = { result ->
+                result.onSuccess {
+                    _uiState.value = uiState.value.copy(
+                        earthPolychromaticImages = it,
+                        hasError = false
+                    )
+                }.onFailure {
+                    _uiState.value = uiState.value.copy(hasError = true)
+                }
+            }
+        )
     }
 
 }

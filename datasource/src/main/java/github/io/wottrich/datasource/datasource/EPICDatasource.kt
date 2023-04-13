@@ -14,5 +14,5 @@ import kotlinx.coroutines.flow.Flow
  */
 
 interface EPICDatasource {
-    fun loadEpic(): Flow<Resource<List<EarthPolychromaticImagingCamera>>>
+    fun loadEpic(): Flow<Result<List<EarthPolychromaticImagingCamera>>>
 }

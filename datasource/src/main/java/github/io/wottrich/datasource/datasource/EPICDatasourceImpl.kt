@@ -19,10 +19,9 @@ import kotlinx.coroutines.flow.flow
 class EPICDatasourceImpl(
     private val epicEndpoint: EPICEndpoint
 ) : EPICDatasource {
-    override fun loadEpic(): Flow<Resource<List<EarthPolychromaticImagingCamera>>> {
-        return flow {  }
-        /*return NetworkBoundResource(
+    override fun loadEpic(): Flow<Result<List<EarthPolychromaticImagingCamera>>> {
+        return NetworkBoundResource(
             call = { epicEndpoint.loadEarthPolychromaticImagingCameraList() }
-        ).build()*/
+        ).build()
     }
 }

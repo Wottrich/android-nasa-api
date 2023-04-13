@@ -17,30 +17,31 @@ import kotlinx.coroutines.flow.flow
 class NetworkBoundResource<T>(
     private val getFromDatabase: (suspend () -> T?)? = null,
     private val saveCallResults: (suspend (item: T) -> Unit)? = null,
-    private val call: suspend () -> Resource<T>
+    private val call: suspend () -> Result<T>
 ) {
 
-    fun build(): Flow<Resource<T>> {
+    fun build(): Flow<Result<T>> {
         return flow {
-            emit(Resource.loading())
+            //emit(Resource.loading())
             fetchFromDatabase()
             fetchFromNetwork()
         }
     }
 
-    private suspend fun FlowCollector<Resource<T>>.fetchFromDatabase() {
+    private suspend fun FlowCollector<Result<T>>.fetchFromDatabase() {
         val value = getFromDatabase?.invoke()
         value?.let { databaseValue ->
-            emit(Resource.cached(databaseValue))
+            emit(Result.success(databaseValue))
         }
     }
 
-    private suspend fun FlowCollector<Resource<T>>.fetchFromNetwork() {
-        return when (val result = call()) {
-            is Resource.Success -> {
-                val data = checkNotNull(result.data)
+    private suspend fun FlowCollector<Result<T>>.fetchFromNetwork() {
+        val result = call()
+        return when {
+            result.isSuccess -> {
+                val data = checkNotNull(result.getOrNull())
                 saveCallResults?.invoke(data)
-                emit(Resource.success(data))
+                emit(Result.success(data))
             }
             else -> {
                 emit(result)
